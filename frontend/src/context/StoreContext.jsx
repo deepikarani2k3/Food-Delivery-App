@@ -1,11 +1,14 @@
-import React, { createContext, useState ,useEffect} from "react";
+import React, { createContext, useEffect ,useState} from "react";
 import { food_list } from "../assets/assets";
+import axios from "axios";
 
 
 export const StoreContext = createContext(null);
 
-const StoreContextProvider = ({ children }) => {
+const StoreContextProvider = ({ children}) => {
   const [cartItems, setCartItems] = useState({});
+  const url="http://localhost:4000/"
+  const [token,setToken]=useState("");
 
   const addToCart = (id) => {
     setCartItems((prev) => ({
@@ -47,7 +50,9 @@ const StoreContextProvider = ({ children }) => {
     addToCart,
     removeFromCart,
     getTotalCartAmount,
-    url: "", 
+    url, 
+    token,
+    setToken
   };
 
 

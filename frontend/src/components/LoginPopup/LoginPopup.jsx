@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import './LoginPopup.css'
 import { assets } from '../../assets/assets'
 import { StoreContext } from '../../context/StoreContext'
-//import axios from "axios"
+import axios from "axios"
 
 const LoginPopup = ({setShowLogin}) => {
 
@@ -19,6 +19,12 @@ const LoginPopup = ({setShowLogin}) => {
     setData(data=>({...data,[name]:value}))
   }
 
+
+  // useEffect(()=>{
+  //   console.log(data);
+
+  // },[data])
+
   const onLogin =async (event) => {
     event.preventDefault()
     let newUrl = url;
@@ -30,7 +36,8 @@ const LoginPopup = ({setShowLogin}) => {
     }
 
     const response= await axios.post(newUrl,data);
-
+    console.log(response);
+    
     if(response.data.success){
       setToken(response.data.token);
       localStorage.setItem("token",response.data.token);
