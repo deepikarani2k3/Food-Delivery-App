@@ -1,28 +1,36 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
-    const authMiddleware = async (req, res, next) => {
-        const token = req.headers.token; 
+const authMiddleware = async (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  console.log("Authorization Header:", authHeader);
 
-        if (!token) {
-            return res.json({ success: false, message: "Not Authorized, Login Again" });
-        }
+  if (!authHeader) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Not Authorized, Login Again" });
+  }
 
-        try {
-            const token_decode = jwt.verify(token, process.env.JWT_SECRET);
+  const token = authHeader.split(" ")[1];
+  console.log("Token:", token);
 
-            if (!token_decode || !token_decode.id) {
-                return res.json({ success: false, message: "Invalid token structure or missing user ID." });
-            }
+  if (!token) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Token missing" });
+  }
 
-            req.user = { id: token_decode.id }; 
-            
-            console.log("Auth Debug: Successfully decoded token. User ID set to:", req.user.id);
-            next();
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded Token:", decoded);
 
-        } catch (error) {
-            return res.json({ success: false, message: "Authentication failed: Invalid or expired token." });
-        }
-          
-    };
+    req.user = { id: decoded.id };
+    next();
+  } catch (error) {
+    console.error("JWT Error:", error.message);
+    return res
+      .status(401)
+      .json({ success: false, message: "Authentication failed" });
+  }
+};
 
-    export default authMiddleware;
+export default authMiddleware;
