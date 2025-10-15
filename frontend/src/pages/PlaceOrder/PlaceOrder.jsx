@@ -24,9 +24,6 @@ const PlaceOrder = () => {
     setData(data=>({...data,[name]:value}))
   }
 
- 
-
-
   const placeOrder = async (event) => {
   event.preventDefault();
 
@@ -60,8 +57,8 @@ const PlaceOrder = () => {
       alert("Error")
     }
   };
-
-    const navigate = useNavigate();
+  
+  const navigate = useNavigate();
    useEffect(()=>{
     if (!token) {
       navigate('/cart')
