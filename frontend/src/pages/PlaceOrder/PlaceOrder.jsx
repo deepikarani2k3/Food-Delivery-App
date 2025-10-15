@@ -24,10 +24,7 @@ const PlaceOrder = () => {
     setData(data=>({...data,[name]:value}))
   }
 
-  // useEffect(()=>{
-  //   console.log(data);
-    
-  // },[data])
+ 
 
 
   const placeOrder = async (event) => {
