@@ -56,9 +56,8 @@ const MyOrder = () => {
                             <p>${order.amount}.00</p>
                             <p>Items: {order.items.length}</p>
                             <p><span>&#x25cf;</span> <b>{order.status}</b></p>
-                            <div className="order-actions">
-                                <button className="track-order-button" onClick={() => handleTrackOrder(order._id, order.status)}>Track Order</button>
-                            </div>
+                            
+                            <button onClick={fetchOrders}>Track Order</button>
 
                             {/* Display Refund Status
                             {order.refundStatus !== 'NONE' && (
