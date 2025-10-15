@@ -52,16 +52,15 @@ const placeOrder=async(req,res)=>{
          res.json({success:true,session_url:session.url})
     }
     catch(error){
-        console.log("error");
+        console.log("Error placing order:", error);
         res.json({success:false, message:"Error"})
-
     }
 
 
 }
 
 const verifyOrder = async(req,res)=>{
-    const {orderId,success,sessionId} =req.body; 
+    const {orderId,success} =req.body; 
      try {
         if(success=="true"){
             await orderModel.findByIdAndUpdate(orderId,{payment:true});
@@ -101,5 +100,14 @@ const verifyOrder = async(req,res)=>{
         res.json({success:false,message:"Error listing orders"})
     }
 }
+export const updateStatus = async (req,res) =>{
+    try {
+        await orderModel.findByIdAndUpdate(req.body.orderId,{status:req.body.status});
+        res.json({success:true,message:"Status Updated"})
+    } catch (error) {
+        res.json({success:false,message:"Error updating status"})
+    }
+}
+
 
 export{placeOrder, verifyOrder, userOrders,listOrders}
