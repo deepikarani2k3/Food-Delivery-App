@@ -91,7 +91,7 @@ const verifyOrder = async(req,res)=>{
         res.json({success:false,message:"Error fetching user orders"})
     }
 }
-  
+  //Listing orders for admin panel
  const listOrders = async (req,res)=>{
     try {
         const orders = await orderModel.find({});
@@ -100,7 +100,9 @@ const verifyOrder = async(req,res)=>{
         res.json({success:false,message:"Error listing orders"})
     }
 }
-export const updateStatus = async (req,res) =>{
+
+//api for updating order status
+ const updateStatus = async (req,res) =>{
     try {
         await orderModel.findByIdAndUpdate(req.body.orderId,{status:req.body.status});
         res.json({success:true,message:"Status Updated"})
@@ -110,4 +112,4 @@ export const updateStatus = async (req,res) =>{
 }
 
 
-export{placeOrder, verifyOrder, userOrders,listOrders}
+export{placeOrder, verifyOrder, userOrders,listOrders,updateStatus}
