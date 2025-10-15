@@ -80,20 +80,26 @@ const verifyOrder = async(req,res)=>{
     }}
 
     // user orders for frontend
-    const userOrders =async(req, res)=>{
-        try{
-            const orders =await orderModel.find({userId:req.body.userId});
-            res.json({success:true, data:orders})
-
-        } catch(error){
-            console.log(error);
-            res.json({success:false, message:"Error"})
-            
-
+    const userOrders = async(req,res)=>{
+    try {
+        if (!req.user || !req.user.id) {
+            return res.json({ success: false, message: "Authentication required to fetch user orders." });
         }
-
-
+        const userId = req.user.id;
+        const orders = await orderModel.find({userId:userId}); 
+        res.json({success:true,data:orders})
+    } catch (error) {
+        res.json({success:false,message:"Error fetching user orders"})
     }
+}
   
+ const listOrders = async (req,res)=>{
+    try {
+        const orders = await orderModel.find({});
+        res.json({success:true,data:orders})
+    } catch (error) {
+        res.json({success:false,message:"Error listing orders"})
+    }
+}
 
-export{placeOrder, verifyOrder, userOrders}
+export{placeOrder, verifyOrder, userOrders,listOrders}
