@@ -90,11 +90,10 @@ const MyOrder = () => {
                     data.map((order, index) => (
                         <div key={index} className="my-orders-order">
                             <img src={assets.parcel_icon} alt="" />
-                            <p>
+                            <p className="items-list">
                                 {order.items.map((item, itemIndex) => (
-                                    <span key={itemIndex}>
+                                    <span key={itemIndex} className="item-chip">
                                         {item.name} x {item.quantity}
-                                        {itemIndex === order.items.length - 1 ? '' : ', '}
                                     </span>
                                 ))}
                             </p>
@@ -111,7 +110,9 @@ const MyOrder = () => {
                                 </p>
                             )} */}
 
-                           
+                            <div className="order-actions">
+                                <button className="track-order-button">Track order</button>
+                            </div>
                         </div>
                     ))
                 )}
