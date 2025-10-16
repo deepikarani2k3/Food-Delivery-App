@@ -1,29 +1,32 @@
 import express from "express"
 import cors from "cors"
 import { connectDB } from "./config/db.js"
+
 import foodRouter from "./routes/foodRoute.js"
 import userRouter from "./routes/userRoute.js"
 import cartRouter from "./routes/cartRoute.js";
 
-import 'dotenv/config'
+import dotenv from "dotenv";
 import orderRouter from "./routes/orderRoute.js"
 
 //app config
-const app = express()
-const port = 4000
+dotenv.config(); 
 
+const app = express();
+const port = 4000;
 
-//middleware
-app.use(express.json())
+// db connection
+connectDB();
+
 app.use(cors({
     origin: [process.env.CLIENT_URL, process.env.ADMIN_URL], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization', 'token'],
-    credentials: true 
+    credentials: true 
 }));
 
-// db connection
-connectDB();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //api endpoints
 app.use("/api/food", foodRouter)
