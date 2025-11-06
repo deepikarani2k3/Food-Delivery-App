@@ -57,34 +57,22 @@ const removeFromCart = async (itemId) => {
     setFoodList(response.data.data)
   }
 
-    const loadCartData = async (token) => {
-  try {
-    const response = await axios.post(
-      url + "/api/cart/get",
-      {}, // request body
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+  const loadCartData = async (token)=>{
+    const response = await axios.post(url+"/api/cart/get",{},{headers:{token}})
     setCartItems(response.data.cartData);
-  
-  } catch (error) {
-    console.error("Failed to load cart:", error.response || error.message);
   }
-};
-
-
-
 
   useEffect(()=>{
     async function loadData(){
       await fetchFoodList();
       if(localStorage.getItem("token")){
-        const savedToken = localStorage.getItem("token");
-        setToken(savedToken);
-        await loadCartData(savedToken);
-      } 
+        setToken(localStorage.getItem("token"))
+        await loadCartData(localStorage.getItem("token"))
+      }
     }
-    loadData();
-  },[])
+    loadData()
+
+  },[]);
   const contextValue = {
     food_list,
     cartItems,
